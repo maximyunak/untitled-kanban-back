@@ -2,14 +2,14 @@
 
 namespace App\DTOs\Auth;
 
-class RegisterDTO
+readonly class RegisterDTO
 {
     public function __construct(
-        public readonly string  $first_name,
-        public readonly string  $last_name,
-        public readonly ?string $patronymic ,
-        public readonly string  $email,
-        public readonly string  $password,
+        public string  $first_name,
+        public string  $last_name,
+        public ?string $patronymic ,
+        public string  $email,
+        public string  $password,
     ) {}
 
     public function toArray(): array

@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = validator($request->all(), [
-            "email" => "string"
-        ]);
-
-        return;
+        
     }
 }

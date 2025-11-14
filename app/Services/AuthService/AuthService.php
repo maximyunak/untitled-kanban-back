@@ -6,6 +6,7 @@ use App\DTOs\Auth\LoginDTO;
 use App\DTOs\Auth\RegisterDTO;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -20,7 +21,8 @@ class AuthService
     public function login(LoginDTO $dto): array
     {
         if (! $access_token = JWTAuth::attempt($dto->toArray())) {
-            throw new \Error("Invalid Credentials");
+//            throw new \Error("Invalid Credentials");
+            throw new UnauthorizedHttpException("Invalid Credentials");
         }
         $user = auth()->user();
 

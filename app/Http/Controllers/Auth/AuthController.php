@@ -25,7 +25,7 @@ class AuthController extends Controller
         return $this->success(code: 201, message: "Registration successful", data: $user);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $dto = new LoginDto(...$request->validated());
 

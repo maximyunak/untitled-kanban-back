@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\AuthService\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -32,8 +33,16 @@ class AuthController extends Controller
         $tokens = $this->authService->login($dto);
 
         return $this->success( message: "Login successful")
-            ->withCookie(cookie("access_token", $tokens["access_token"], 60, "/"))
-            ->withCookie(cookie("refresh_token", $tokens["refresh_token"], 20160, "/"));
+            ->withCookie(cookie("access_token", $tokens["access_token"], 60))
+            ->withCookie(cookie("refresh_token", $tokens["refresh_token"], 20160));
     }
 
+    public function logout()
+    {
+        auth()->user()->update(["refresh_token" => null, "refresh_token_expires_at" => null]);
+
+        return $this->success(code: 200, message: "Logout successful")
+            ->withCookie(Cookie::forget("access_token"))
+            ->withCookie(Cookie::forget("refresh_token"));
+    }
 }

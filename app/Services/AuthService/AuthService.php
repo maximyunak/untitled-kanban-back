@@ -20,8 +20,7 @@ class AuthService
 
     public function login(LoginDTO $dto): array
     {
-        if (! $access_token = JWTAuth::attempt($dto->toArray())) {
-//            throw new \Error("Invalid Credentials");
+        if (!$access_token = JWTAuth::attempt($dto->toArray())) {
             throw new UnauthorizedHttpException("Invalid Credentials");
         }
         $user = auth()->user();
@@ -37,5 +36,18 @@ class AuthService
             "access_token" => $access_token,
             "refresh_token" => $refresh_token,
         ];
+    }
+
+    public function refresh($refresh_token): string
+    {
+        $user = User::where("refresh_token", $refresh_token)
+            ->where("refresh_token_expires_at", ">", now())
+            ->first();
+
+        if (!$user) {
+            throw new UnauthorizedHttpException("Refresh token has expired");
+        }
+
+        return JWTAuth::fromUser($user);
     }
 }

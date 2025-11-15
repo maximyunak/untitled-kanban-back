@@ -7,10 +7,12 @@ readonly class RegisterDTO
     public function __construct(
         public string  $first_name,
         public string  $last_name,
-        public ?string $patronymic ,
         public string  $email,
         public string  $password,
-    ) {}
+        public ?string $patronymic = null,
+    )
+    {
+    }
 
     public function toArray(): array
     {

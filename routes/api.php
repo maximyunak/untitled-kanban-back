@@ -14,6 +14,7 @@ Route::middleware([CheckToken::class])->group(function () {
 
     Route::group(["prefix"=>"boards"], function () {
         Route::post("/", [BoardController::class, "store"]);
+        Route::get("/", [BoardController::class, "index"]);
     });
 });
 

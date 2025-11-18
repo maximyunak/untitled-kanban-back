@@ -11,4 +11,9 @@ class BoardService
     {
         return Board::create($dto->toArray());
     }
+
+    public function delete_board(Board $board)
+    {
+        return $board->delete();
+    }
 }

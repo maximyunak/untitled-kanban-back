@@ -9,6 +9,7 @@ use App\Models\Board;
 use App\Services\KanbanService\BoardService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BoardController extends Controller
 {
@@ -33,5 +34,14 @@ class BoardController extends Controller
         $board = $this->boardService->create_board($dto);
 
         return $this->success(code: 201, message: "Successfully created board.", data: $board);
+    }
+
+    public function destroy(Board $board)
+    {
+        Gate::authorize('delete', $board);
+        
+        $this->boardService->delete_board($board);
+
+        return $this->success(message: "Successfully deleted board.");
     }
 }

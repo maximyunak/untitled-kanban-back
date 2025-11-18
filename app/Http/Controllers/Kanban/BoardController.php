@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Kanban;
 
-use App\DTOs\Kanban\BoardDTO;
+use App\DTOs\Kanban\Board\BoardDTO;
+use App\DTOs\Kanban\Board\UpdateBoardDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kanban\CreateBoardRequest;
+use App\Http\Requests\Kanban\UpdateBoardRequest;
 use App\Models\Board;
 use App\Services\KanbanService\BoardService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class BoardController extends Controller
@@ -36,12 +37,22 @@ class BoardController extends Controller
         return $this->success(code: 201, message: "Successfully created board.", data: $board);
     }
 
-    public function destroy(Board $board)
+    public function destroy(Board $board): JsonResponse
     {
         Gate::authorize('delete', $board);
-        
+
         $this->boardService->delete_board($board);
 
         return $this->success(message: "Successfully deleted board.");
+    }
+
+    public function update(UpdateBoardRequest $request, Board $board): JsonResponse
+    {
+        Gate::authorize('update', $board);
+
+        $dto = new UpdateBoardDTO(...$request->validated());
+        $this->boardService->update_board($board, $dto);
+
+        return $this->success(message: "Successfully updated board.",data: $board);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Kanban;
+namespace App\DTOs\Kanban\Board;
 
 readonly class BoardDTO
 {

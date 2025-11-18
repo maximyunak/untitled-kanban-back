@@ -16,6 +16,7 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::post("/", [BoardController::class, "store"]);
         Route::get("/", [BoardController::class, "index"]);
         Route::delete('/{board}', [BoardController::class, "destroy"]);
+        Route::patch('/{board}', [BoardController::class, "update"]);
     });
 });
 

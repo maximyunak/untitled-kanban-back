@@ -55,4 +55,9 @@ class BoardController extends Controller
 
         return $this->success(message: "Successfully updated board.",data: $board);
     }
+
+    public function show(Board $board): JsonResponse
+    {
+        return $this->success(data: $board);
+    }
 }

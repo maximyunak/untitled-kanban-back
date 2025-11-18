@@ -15,6 +15,7 @@ Route::middleware([CheckToken::class])->group(function () {
     Route::group(["prefix"=>"boards"], function () {
         Route::post("/", [BoardController::class, "store"]);
         Route::get("/", [BoardController::class, "index"]);
+        Route::get("/{board}", [BoardController::class, "show"]);
         Route::delete('/{board}', [BoardController::class, "destroy"]);
         Route::patch('/{board}', [BoardController::class, "update"]);
     });

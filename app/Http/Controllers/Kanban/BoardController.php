@@ -58,6 +58,7 @@ class BoardController extends Controller
 
     public function show(Board $board): JsonResponse
     {
+        Gate::authorize('view', $board);
         return $this->success(data: $board);
     }
 }

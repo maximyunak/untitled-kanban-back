@@ -1,6 +1,7 @@
 <?php
 
 use \App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\Kanban\BoardController;
 use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,10 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::get("/{board}", [BoardController::class, "show"]);
         Route::delete('/{board}', [BoardController::class, "destroy"]);
         Route::patch('/{board}', [BoardController::class, "update"]);
+
+        Route::group(["prefix"=>"/{board}/columns"], function () {
+            Route::post('/', [ColumnController::class, "store"]);
+        });
     });
 });
 

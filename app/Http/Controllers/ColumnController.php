@@ -7,13 +7,18 @@ use App\Http\Requests\Kanban\CreateColumnRequest;
 use App\Models\Board;
 use App\Models\Column;
 use App\Services\KanbanService\ColumnService;
-use Illuminate\Http\Request;
 
 class ColumnController extends Controller
 {
     public function __construct(private readonly ColumnService $columnService)
     {
 
+    }
+
+    public function index(Board $board)
+    {
+        $columns = Column::where("board_id", $board->id)->get();
+        return $this->success(data: $columns);
     }
 
     public function store(CreateColumnRequest $request, Board $board)

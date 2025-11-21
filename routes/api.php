@@ -21,6 +21,7 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::patch('/{board}', [BoardController::class, "update"]);
 
         Route::group(["prefix"=>"/{board}/columns"], function () {
+            Route::get('/', [ColumnController::class, "index"]);
             Route::post('/', [ColumnController::class, "store"]);
         });
     });

@@ -26,6 +26,7 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::group(["prefix"=>"/{board}/columns"], function () {
             Route::get('/', [ColumnController::class, "index"]);
             Route::post('/', [ColumnController::class, "store"]);
+            Route::patch('/move', [ColumnController::class, "move"]);
 
             Route::group(["prefix" => "/{column}/tasks"], function () {
                 Route::post('/', [TaskController::class, "store"]);

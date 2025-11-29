@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Kanban;
 
 use App\DTOs\Kanban\Column\ColumnDTO;
+use App\DTOs\Kanban\Column\MoveColumnDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kanban\CreateColumnRequest;
+use App\Http\Requests\Kanban\MoveColumnRequest;
 use App\Models\Board;
 use App\Models\Column;
 use App\Services\KanbanService\ColumnService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
 class ColumnController extends Controller
@@ -32,5 +35,18 @@ class ColumnController extends Controller
         $column = $this->columnService->create_column(new ColumnDTO(...$data));
 
         return $this->success(code: 201, message: "Successfully created column.", data: $column);
+    }
+
+    public function move(Board $board, MoveColumnRequest $request): JsonResponse
+    {
+        Gate::authorize("create", $board);
+
+        $data = $request->validated();
+        $data["board_id"] = $board->id;
+        $dto = MoveColumnDTO::fromArray($data);
+
+        $this->columnService->move($dto);
+
+        return $this->success(message: "Successfully moved column.");
     }
 }

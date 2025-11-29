@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Kanban;
 
 use App\DTOs\Kanban\Column\ColumnDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Kanban\CreateColumnRequest;
 use App\Models\Board;
 use App\Models\Column;
 use App\Services\KanbanService\ColumnService;
+use Illuminate\Support\Facades\Gate;
 
 class ColumnController extends Controller
 {
@@ -17,6 +19,7 @@ class ColumnController extends Controller
 
     public function index(Board $board)
     {
+        Gate::authorize('view', $board);
         $columns = Column::where("board_id", $board->id)->get();
         return $this->success(data: $columns);
     }

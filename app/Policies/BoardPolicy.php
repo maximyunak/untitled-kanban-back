@@ -27,9 +27,9 @@ class BoardPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Board $board): bool
     {
-        return false;
+        return $board->users->contains($user);
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-use \App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\ColumnController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Kanban\BoardController;
+use App\Http\Controllers\Kanban\ColumnController;
+use App\Http\Controllers\Kanban\TaskController;
 use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::group(["prefix"=>"/{board}/columns"], function () {
             Route::get('/', [ColumnController::class, "index"]);
             Route::post('/', [ColumnController::class, "store"]);
+
+            Route::group(["prefix" => "/{column}/tasks"], function () {
+                Route::post('/', [TaskController::class, "store"]);
+            });
         });
     });
 });

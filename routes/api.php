@@ -21,6 +21,8 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::delete('/{board}', [BoardController::class, "destroy"]);
         Route::patch('/{board}', [BoardController::class, "update"]);
 
+        Route::patch('/{board}/tasks/move', [TaskController::class, "move"]);
+
         Route::group(["prefix"=>"/{board}/columns"], function () {
             Route::get('/', [ColumnController::class, "index"]);
             Route::post('/', [ColumnController::class, "store"]);

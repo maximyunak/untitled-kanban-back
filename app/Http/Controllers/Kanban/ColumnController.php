@@ -20,7 +20,7 @@ class ColumnController extends Controller
     public function index(Board $board)
     {
         Gate::authorize('view', $board);
-        $columns = Column::where("board_id", $board->id)->get();
+        $columns = Column::where("board_id", $board->id)->get()->load('tasks');
         return $this->success(data: $columns);
     }
 

@@ -8,8 +8,8 @@ readonly class TaskDTO
         public string $name,
         public int    $position,
 
-        public int $creator_id,
-        public int $column_id,
+        public int    $creator_id,
+        public int    $column_id,
     )
     {
     }

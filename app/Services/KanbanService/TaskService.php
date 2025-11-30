@@ -4,6 +4,7 @@ namespace App\Services\KanbanService;
 
 use App\DTOs\Kanban\Task\MoveTaskDTO;
 use App\DTOs\Kanban\Task\TaskDTO;
+use App\DTOs\Kanban\Task\UpdateTaskDTO;
 use App\Models\Board;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
@@ -36,5 +37,12 @@ class TaskService
             }
 
         });
+    }
+
+    public function update(Task $task, UpdateTaskDTO $dto): Task
+    {
+        $task->update($dto->data);
+
+        return $task->fresh();
     }
 }

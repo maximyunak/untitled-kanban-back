@@ -14,16 +14,19 @@ Route::post("/refresh", [AuthController::class, "refresh"]);
 Route::middleware([CheckToken::class])->group(function () {
     Route::post("/logout", [AuthController::class, "logout"]);
 
-    Route::group(["prefix"=>"boards"], function () {
+    Route::group(["prefix" => "boards"], function () {
         Route::post("/", [BoardController::class, "store"]);
         Route::get("/", [BoardController::class, "index"]);
         Route::get("/{board}", [BoardController::class, "show"]);
         Route::delete('/{board}', [BoardController::class, "destroy"]);
         Route::patch('/{board}', [BoardController::class, "update"]);
 
-        Route::patch('/{board}/tasks/move', [TaskController::class, "move"]);
+        Route::group(["prefix" => "{board}/tasks"], function () {
+            Route::patch('/move', [TaskController::class, "move"]);
+            Route::patch('/{task}', [TaskController::class, "edit"]);
+        });
 
-        Route::group(["prefix"=>"/{board}/columns"], function () {
+        Route::group(["prefix" => "/{board}/columns"], function () {
             Route::get('/', [ColumnController::class, "index"]);
             Route::post('/', [ColumnController::class, "store"]);
             Route::patch('/move', [ColumnController::class, "move"]);

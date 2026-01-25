@@ -59,7 +59,13 @@ class BoardController extends Controller
     public function show(Board $board): JsonResponse
     {
         Gate::authorize('view', $board);
-        $board->load("columns");
+        $board->load("columns.tasks");
+//        return $this->success(data: [
+//            "board" => $board,
+//            "columns" => [
+//                "cols" => $board->columns,
+//            ],
+//        ]);
         return $this->success(data: $board);
     }
 }

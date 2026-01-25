@@ -14,19 +14,20 @@ class CheckToken
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $access_token = $request->cookie("access_token");
+        // dd($request->cookie('access_token'));
+        $access_token = $request->cookie('access_token');
 
         try {
             $user = JWTAuth::setToken($access_token)->authenticate();
-            if (!$user) {
-                throw new UnauthorizedHttpException("Invalid token");
+            if (! $user) {
+                throw new UnauthorizedHttpException('Invalid token');
             }
         } catch (JWTException $e) {
-            throw new UnauthorizedHttpException("Invalid token");
+            throw new UnauthorizedHttpException('Invalid token');
         }
 
         auth()->login($user);
